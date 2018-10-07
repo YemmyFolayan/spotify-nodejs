@@ -1,0 +1,18 @@
+{
+  "name": "the-spotify-music-download-project",
+  "version": "1.0.0",
+  "description": "Fetches and downloads music from a spotify playlist.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node src/index.js"
+  },
+  "author": "Karan",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.5.2",
+    "node-cmd": "^3.0.0",
+    "node-fetch": "^2.2.0",
+    "request": "^2.88.0",
+    "yargs": "^12.0.2"
+  }
+}
