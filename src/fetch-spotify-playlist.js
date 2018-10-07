@@ -2,17 +2,24 @@ const { fetchSpotifyData } = require('./fetch-spotify-data');
 const { fetchSpotifyToken } = require('./fetch-spotify-token');
 const { searchYoutube } = require('./fetch-youtube-search');
 const { terminalExec } = require('./terminal-exec');
+const chalk = require('chalk');
+
+let spotifyLog = chalk.rgb(30, 215, 97);
+let log = console.log;
 
 const fetchSpotifyPlaylist = async (user_id, playlist_id) => {
 
     let spotify_playlist_endpoint_url = `https://api.spotify.com/v1/users/${user_id}/playlists/${playlist_id}/tracks`;
-    let download_path = `./src/downloads/${user_id}/music/`;
-    let download_archive = `./src/downloads/${user_id}/downloaded.txt`;
+    let download_path = `./downloads/${user_id}/music/`;
+    let download_archive = `./downloads/${user_id}/downloaded.txt`;
     let totalFetched = 0, times = 1, offset = 0;
     let tracksData = [];
     let fetchedData = null;
     let { body: tokendata } = await fetchSpotifyToken();
     let OAuthToken = tokendata.access_token;
+
+    log('\n');
+    process.stdout.write('[<<||>>] Fetching playlist ');
 
     for (let i = 0; i <= parseInt(times); i++) {
 
@@ -31,12 +38,10 @@ const fetchSpotifyPlaylist = async (user_id, playlist_id) => {
         offset += 100;
     }
 
-    console.log('[*] Refreshing Downloads folder.\n');
+    process.stdout.write(spotifyLog(`[√] (${totalFetched} songs) \n`));
+    log('[*] Refreshing Downloads folder ' + spotifyLog('[√]'));
 
-    // try { await terminalExec(`rm -r ${download_path} && mkdir ${download_path}`); }
-    // catch (error) { console.log('Building initial userdata') }
-
-    console.log('[*] Fetched : ' + totalFetched + ' songs. \n');
+    // console.log('[*] Fetched : ' + totalFetched + ' songs.');
     let dataArray = [];
     let dataArrayElement = {};
 
@@ -55,11 +60,12 @@ const fetchSpotifyPlaylist = async (user_id, playlist_id) => {
 
         try {
 
-            console.log('-> ' + savedTrackName);
+            console.log('\n\n')
+            console.log('• ' + savedTrackName + '\n');
             
-            console.log('[^] Searching youtube [Pending]');
+            process.stdout.write('  [^] Searching on YouTube. ');
             searchResult = await searchYoutube(trackName);
-            console.log('[^] Searching youtube [Complete]');
+            process.stdout.write(spotifyLog('[√] \n'));
 
             let { videoId: ytid } = searchResult.items[0].id;
 
@@ -69,16 +75,18 @@ const fetchSpotifyPlaylist = async (user_id, playlist_id) => {
                 release_date, preview_url, ytid, album_name,
                 username
             };
-            console.log('[^] Downloading [Pending]');
+
+            process.stdout.write('  [*] Downloading ');
 
             await terminalExec(`youtube-dl --download-archive ${download_archive} -cix --audio-format "mp3" -o "${download_path}${savedTrackName}.%(ext)s" https://www.youtube.com/watch?v=${ytid}`);
-            console.log('[^] Downloading [Complete]');
+
+            process.stdout.write(spotifyLog('[√]'));
             dataArray.push(dataArrayElement);
             
         } catch (error) {
 
             console.log(error);
-            
+
             // on error make ytid: null and make an empty text file.
 
             dataArrayElement = {
