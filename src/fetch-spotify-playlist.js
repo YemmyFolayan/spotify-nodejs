@@ -85,7 +85,7 @@ const fetchSpotifyPlaylist = async (user_id, playlist_id) => {
             
         } catch (error) {
 
-            console.log(error);
+            console.log(chalk.red('[X] Cannot find the song on youtube.'));
 
             // on error make ytid: null and make an empty text file.
 

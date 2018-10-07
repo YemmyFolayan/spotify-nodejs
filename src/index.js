@@ -28,7 +28,7 @@ figlet('Spotify X', {
                 height: 40
             }, function (err, asciified_logo) {
 
-                // if (err) throw err;
+                if (err) throw err;
 
                 log(spotifyLog(asciified_logo) + '\n');
                 startApp(err, style)
