@@ -12,7 +12,7 @@ let spotifyLog = chalk.rgb(30, 215, 97);
 
 
 let random_font = fonts[Math.floor(Math.random() * (fonts.length - 1))];
-console.log(random_font);
+    console.log(random_font);
 
 figlet('Spotify X', {
 
@@ -33,8 +33,6 @@ figlet('Spotify X', {
                 log(spotifyLog(asciified_logo) + '\n');
                 startApp(err, style)
             });
-
-            
         });
 
 async function startApp(err, style) {
@@ -61,12 +59,4 @@ async function startApp(err, style) {
     } catch(error) { log('FAILED.') }
 
 }
-
-
-
-
-// async function () {
-
-//     let datat = await fetchSpotifyPlaylist("vertigo_101", "5PVsL8R9lMAP6dWBQLp8AQ");
-// };
 
