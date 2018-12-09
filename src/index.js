@@ -8,11 +8,8 @@ const asciify = require('asciify-image');
 let log = console.log;
 let spotifyLog = chalk.rgb(30, 215, 97);
 
-//FIXME: Review dependencies.
-
 
 let random_font = fonts[Math.floor(Math.random() * (fonts.length - 1))];
-    console.log(random_font);
 
 figlet('Spotify X', {
 
@@ -54,9 +51,9 @@ async function startApp(err, style) {
 
     try { 
         
-        await fetchSpotifyPlaylist('vertigo_101', '5PVsL8R9lMAP6dWBQLp8AQ');
+        await fetchSpotifyPlaylist(spotifyUsername, spotifyPlaylistID);
 
-    } catch(error) { log('FAILED.') }
+    } catch(error) { log('Failed to fetch.') }
 
 }
 
