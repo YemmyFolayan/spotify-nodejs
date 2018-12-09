@@ -1,3 +1,10 @@
+/**
+ * 
+ * These keys are for demonstration purposes only.
+ * Kindly generate your own keys as they're free of cost.
+ * 
+ */
+
 module.exports = {
 
     spotify_credentials: {
